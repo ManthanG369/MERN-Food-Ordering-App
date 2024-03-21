@@ -1,19 +1,13 @@
 import express, { Request, Response } from "express";
 import cors from "cors";
 import "dotenv/config";
-import mongoose from "mongoose";
+// import mongoose from "mongoose";
 import myUserRoute from "./routes/MyUserRoutes";
 import myRestaurantRoute from "./routes/MyRestaurantRoute";
 import { v2 as cloudinary } from "cloudinary";
+import connectDB from "./db";
 
-mongoose
-  .connect(process.env.MONGODB_CONNECTION_STRING as string)
-  .then(() => {
-    console.log("Connected to database");
-  })
-  .catch((error) => {
-    console.log("Mongo:error:", error);
-  });
+const PORT = process.env.PORT || 7000;
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -30,6 +24,12 @@ app.get("/health", async (req: Request, res: Response) => {
 app.use("/api/my/user", myUserRoute);
 app.use("/api/my/restaurant", myRestaurantRoute);
 
-app.listen(7000, () => {
-  console.log("Server started on localhost:7000");
-});
+connectDB()
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`⚙️  Server is running at port : ${process.env.PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.log("MONGO db connection failed !!! ", err);
+  });
