@@ -1,12 +1,12 @@
 import express, { Request, Response } from "express";
 import cors from "cors";
 import "dotenv/config";
-// import mongoose from "mongoose";
+import connectDB from "./db";
 import myUserRoute from "./routes/MyUserRoutes";
 import myRestaurantRoute from "./routes/MyRestaurantRoute";
 import restaurantRoute from "./routes/RestaurantRoute";
 import { v2 as cloudinary } from "cloudinary";
-import connectDB from "./db";
+import orderRoute from "./routes/OrderRoute";
 
 const PORT = process.env.PORT || 7000;
 
@@ -25,6 +25,7 @@ app.get("/health", async (req: Request, res: Response) => {
 app.use("/api/my/user", myUserRoute);
 app.use("/api/my/restaurant", myRestaurantRoute);
 app.use("/api/restaurant", restaurantRoute);
+app.use("/api/order", orderRoute);
 
 connectDB()
   .then(() => {
