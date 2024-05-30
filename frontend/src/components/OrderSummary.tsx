@@ -18,7 +18,6 @@ const OrderSummary = ({ restaurant, cartItems, removeFromCart }: Props) => {
       (total, cartItem) => total + cartItem.price * cartItem.quantity,
       0
     );
-    console.log("totalInPence:", typeof totalInPence);
 
     const totalWithDelivery = totalInPence + Number(restaurant.deliveryPrice);
 

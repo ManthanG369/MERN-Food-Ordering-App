@@ -6,6 +6,7 @@ import RestaurantInfo from "@/components/RestaurantInfo";
 import Loading from "@/components/ui/Loading";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Card, CardFooter } from "@/components/ui/card";
+import { UserFormData } from "@/form/user-profile-form/UserProfileForm";
 import { MenuItem as MenuItemType } from "@/types";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
@@ -26,6 +27,10 @@ const DetailPage = () => {
   if (isLoading || !restaurant) {
     return <Loading />;
   }
+  const onCheckout = (userFormData: UserFormData) => {
+    console.log("userFormData:", userFormData);
+  };
+
   const addToCart = (menuItem: MenuItemType) => {
     setCartItems((prevCartItems) => {
       // 1. check if the item is already in the
@@ -105,9 +110,9 @@ const DetailPage = () => {
             />
             <CardFooter>
               <CheckoutButton
-              // disabled={cartItems.length === 0}
-              // onCheckout={onCheckout}
-              // isLoading={isCheckoutLoading}
+                disabled={cartItems.length === 0}
+                onCheckout={onCheckout}
+                // isLoading={isCheckoutLoading}
               />
             </CardFooter>
           </Card>
